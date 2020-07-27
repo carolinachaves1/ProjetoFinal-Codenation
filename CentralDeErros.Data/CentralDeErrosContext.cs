@@ -19,7 +19,7 @@ namespace CentralDeErros.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-B40CMJ1;Database=CentralDeErros;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=CentralDeErros;Trusted_Connection=True");
             }
         }
 
