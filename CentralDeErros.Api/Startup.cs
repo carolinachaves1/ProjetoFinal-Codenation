@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CentralDeErros.Business.Manager;
+using CentralDeErros.Business.Manager.Interfaces;
 using CentralDeErros.Data;
+using CentralDeErros.Data.Repository;
+using CentralDeErros.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +33,13 @@ namespace CentralDeErros.Api
         {
             services.AddControllers();
             services.AddDbContext<CentralDeErrosContext>();
+            services.AddScoped<IErrorRepository, ErrorRepository>();
+            services.AddScoped<ILevelRepository, LevelRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IErrorManager, ErrorManager>();
+            services.AddScoped<ILevelManager, LevelManager>();
+            services.AddScoped<ICategoryManager, CategoryManager>();
+
             var mappingConfig = new MapperConfiguration(config =>
             {
                 config.AddProfile(new AutoMapperProfile());
