@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using CentralDeErros.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using CentralDeErros.Data.Repository.Interfaces;
+using CentralDeErros.Data.Repository;
+using CentralDeErros.Business.Manager;
+using CentralDeErros.Business.Manager.Interfaces;
+
 
 namespace CentralDeErros.Api
 {
@@ -29,6 +27,13 @@ namespace CentralDeErros.Api
         {
             services.AddControllers();
             services.AddDbContext<CentralDeErrosContext>();
+            services.AddScoped<IErrorRepository, ErrorRepository>();
+            services.AddScoped<IErrorManager, ErrorManager>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryManager, CategoryManager>();
+            services.AddScoped<ILevelManager, LevelManager>();
+            services.AddScoped<ILevelRepository, LevelRepository>();
+
             var mappingConfig = new MapperConfiguration(config =>
             {
                 config.AddProfile(new AutoMapperProfile());
@@ -36,6 +41,7 @@ namespace CentralDeErros.Api
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
