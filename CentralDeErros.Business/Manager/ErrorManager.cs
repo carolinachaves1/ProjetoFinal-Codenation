@@ -7,6 +7,7 @@ using AutoMapper;
 using System.Linq;
 using CentralDeErros.Data.Models;
 using CentralDeErros.Data.Repository;
+using CentralDeErros.Business.Exceptions;
 
 namespace CentralDeErros.Business.Manager
 {
@@ -31,25 +32,60 @@ namespace CentralDeErros.Business.Manager
 
             if (response == null || !response.Any())
             {
-                throw new Exception();
+                throw new ErrorNotFoundException();
             }
 
             return response.Select(x => _mapper.Map<ErrorDTO>(x)).ToList();
         }
 
-        public IEnumerable<ErrorDTO> GetByCategory(int category)
+        public IEnumerable<ErrorDTO> GetByCategory(string categoryName)
         {
-            throw new NotImplementedException();
+            var category = _categoryRepository.CategoryByName(categoryName);
+
+            if(category == null)
+            {
+                throw new CategoryNotFoundException();
+            }
+
+            var response = _errorRepository.GetByCategory(categoryName);
+
+            if(response == null || !response.Any())
+            {
+                throw new ErrorNotFoundException();
+            }
+
+            return response.Select(x => _mapper.Map<ErrorDTO>(x)).ToList();
         }
 
         public ErrorDTO GetById(int id)
         {
-            throw new NotImplementedException();
+            var response = _errorRepository.GetById(id);
+
+            if (response == null)
+            {
+                throw new ErrorNotFoundException();
+            }
+
+            return _mapper.Map<ErrorDTO>(response);
         }
 
-        public IEnumerable<ErrorDTO> GetByLevel(int level)
+        public IEnumerable<ErrorDTO> GetByLevel(string levelName)
         {
-            throw new NotImplementedException();
+            var level = _levelRepository.LevelByName(levelName);
+
+            if (level == null)
+            {
+                throw new LevelNotFoundException();
+            }
+
+            var response = _errorRepository.GetByLevel(levelName);
+
+            if (response == null || !response.Any())
+            {
+                throw new ErrorNotFoundException();
+            }
+
+            return response.Select(x => _mapper.Map<ErrorDTO>(x)).ToList();
         }
 
         public Error Save(ErrorDTO errorDTO)
