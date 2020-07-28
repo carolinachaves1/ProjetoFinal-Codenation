@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CentralDeErros.Business.Manager.Interfaces;
 using CentralDeErros.Business.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralDeErros.Api.Controllers
@@ -89,7 +88,9 @@ namespace CentralDeErros.Api.Controllers
                 return BadRequest();
             }
 
-            return Ok(_errorManager.Save(error));
+            _errorManager.Save(error);
+
+            return Ok();
         }
     }
 }
