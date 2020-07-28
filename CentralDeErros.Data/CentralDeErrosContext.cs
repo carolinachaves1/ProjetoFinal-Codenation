@@ -19,7 +19,7 @@ namespace CentralDeErros.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=localhost;Database=CentralDeErros;User Id=sa;Password=@carol0950");
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=CentralDeErros;Integrated Security=True");
             }
         }
 
