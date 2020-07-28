@@ -17,7 +17,9 @@ namespace CentralDeErros.Data.Repository
 
         public Category CategoryByName(string name)
         {
-            return _context.Categories.Where(x => x.Name == name).FirstOrDefault();
+            var category = _context.Categories.Where(x => x.Name == name).FirstOrDefault();
+
+            return category;
         }
     }
 }

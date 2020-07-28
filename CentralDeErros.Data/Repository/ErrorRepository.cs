@@ -24,17 +24,23 @@ namespace CentralDeErros.Data.Repository
 
         public IEnumerable<Error> GetByCategory(string category)
         {
-            return _context.Errors.Where(x => x.Category.Name == category).ToList();
+            return _context.Errors.Include(x => x.Category)
+                .Include(x => x.Level)
+                .Where(x => x.Category.Name == category).ToList();
         }
          
         public Error GetById(int id)
         {
-            return _context.Errors.Where(x => x.Id == id).FirstOrDefault();
+            return _context.Errors.Include(x => x.Category)
+                .Include(x => x.Level)
+                .Where(x => x.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Error> GetByLevel(string level)
         {
-            return _context.Errors.Where(x => x.Level.Name == level).ToList();
+            return _context.Errors.Include(x => x.Category)
+                .Include(x => x.Level)
+                .Where(x => x.Level.Name == level).ToList();
         }
 
         public int Save(Error error)
