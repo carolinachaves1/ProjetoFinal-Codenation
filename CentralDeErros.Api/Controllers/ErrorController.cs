@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CentralDeErros.Business.Exceptions;
 using CentralDeErros.Business.Manager.Interfaces;

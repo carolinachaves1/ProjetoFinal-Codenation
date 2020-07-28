@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace CentralDeErros.Api
 {
     public class Startup
