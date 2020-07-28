@@ -32,7 +32,7 @@ namespace CentralDeErros.Business.Manager
 
             if (response == null || !response.Any())
             {
-                throw new ErrorNotFoundException();
+                throw new NoContentException();
             }
 
             return response.Select(x => _mapper.Map<ErrorDTO>(x)).ToList();

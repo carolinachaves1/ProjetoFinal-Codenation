@@ -88,8 +88,9 @@ namespace CentralDeErros.Api
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseRouting();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

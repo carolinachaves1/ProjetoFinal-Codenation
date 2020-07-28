@@ -28,6 +28,10 @@ namespace CentralDeErros.Api.Controllers
 
                 return Ok(response);
             }
+            catch (NoContentException)
+            {
+                return NoContent();
+            }
             catch (ErrorNotFoundException)
             {
                 return NotFound();
