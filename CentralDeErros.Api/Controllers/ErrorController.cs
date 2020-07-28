@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CentralDeErros.Api.Controllers
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ErrorController : ControllerBase

@@ -15,6 +15,7 @@ using CentralDeErros.Api.AuthConfig;
 
 namespace CentralDeErros.Api.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
