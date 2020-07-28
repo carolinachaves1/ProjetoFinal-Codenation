@@ -1,5 +1,5 @@
-﻿using CentralDeErros.Data.Models;
-using CentralDeErros.Data.Repository;
+﻿using CentralDeErros.Business.Exceptions;
+using CentralDeErros.Data.Models;
 using CentralDeErros.Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,14 @@ namespace CentralDeErros.Business.Manager.Interfaces
 
         public Level LevelByName(string name)
         {
-           return _levelRepository.LevelByName(name);
+           var level = _levelRepository.LevelByName(name);
+
+            if(level == null)
+            {
+                throw new LevelNotFoundException();
+            }
+
+            return level;
         }
     }
 }

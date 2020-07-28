@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using CentralDeErros.Business.Exceptions;
 using CentralDeErros.Business.Manager.Interfaces;
 using CentralDeErros.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralDeErros.Api.Controllers
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ErrorController : ControllerBase
@@ -29,6 +28,10 @@ namespace CentralDeErros.Api.Controllers
 
                 return Ok(response);
             }
+            catch (ErrorNotFoundException)
+            {
+                return NotFound();
+            }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
@@ -36,7 +39,7 @@ namespace CentralDeErros.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<ErrorDTO>> GetById([Required] int id)
+        public ActionResult<IEnumerable<ErrorDTO>> GetById([FromRoute] int id)
         {
             try
             {
@@ -44,20 +47,9 @@ namespace CentralDeErros.Api.Controllers
 
                 return Ok(response);
             }
-            catch (Exception e)
+            catch (ErrorNotFoundException)
             {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpGet("{levelName}")]
-        public ActionResult<IEnumerable<ErrorDTO>> GetByLevel([Required] string levelName)
-        {
-            try
-            {
-                var response = _errorManager.GetByLevel(levelName);
-
-                return Ok(response);
+                return NotFound("Error not found");
             }
             catch (Exception e)
             {
@@ -65,30 +57,29 @@ namespace CentralDeErros.Api.Controllers
             }
         }
 
-        [HttpGet("{categoryName}")]
-        public ActionResult<IEnumerable<ErrorDTO>> GetByCategory([Required] string categoryName)
-        {
-            try
-            {
-                var response = _errorManager.GetByCategory(categoryName);
-
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
 
         [HttpPost]
         public ActionResult<ErrorDTO> Create(ErrorDTO error)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest();
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
 
-            return Ok(_errorManager.Save(error));
+                _errorManager.Save(error);
+
+                return Ok();
+            }
+            catch (LevelNotFoundException)
+            {
+                return BadRequest("Level does not exist");
+            }
+            catch (CategoryNotFoundException)
+            {
+                return BadRequest("Category does not exist");
+            }
         }
     }
 }

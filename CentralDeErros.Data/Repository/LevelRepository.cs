@@ -1,9 +1,6 @@
 ﻿using CentralDeErros.Data.Models;
 using CentralDeErros.Data.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CentralDeErros.Data.Repository
 {
@@ -18,7 +15,9 @@ namespace CentralDeErros.Data.Repository
 
         public Level LevelByName(string name)
         {
-            return _context.Levels.Where(x => x.Name == name).FirstOrDefault();
+            var level = _context.Levels.Where(x => x.Name == name).FirstOrDefault();
+
+            return level;
         }
     }
 }
